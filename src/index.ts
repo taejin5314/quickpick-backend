@@ -22,7 +22,7 @@ app.use('/api/restaurants', restaurantsRouter);
 app.get('/api/photos/*', (req, res) => {
   const apiKey = process.env.GOOGLE_MAPS_API_KEY;
   if (!apiKey) { res.status(500).end(); return; }
-  const photoName = decodeURIComponent(req.params[0]);
+  const photoName = decodeURIComponent((req.params as Record<string, string>)[0]);
   const url = `https://places.googleapis.com/v1/${photoName}/media?maxWidthPx=800&key=${apiKey}`;
   res.redirect(url);
 });
