@@ -19,10 +19,10 @@ app.use(express.json());
 app.use('/api/restaurants', restaurantsRouter);
 
 // Proxy Google Places photos — keeps the API key server-side
-app.get('/api/photos/*', (req, res) => {
+app.get('/api/photos/*', (req: express.Request<{ '0': string }>, res) => {
   const apiKey = process.env.GOOGLE_MAPS_API_KEY;
   if (!apiKey) { res.status(500).end(); return; }
-  const photoName = decodeURIComponent((req.params as Record<string, string>)[0]);
+  const photoName = decodeURIComponent(req.params['0']);
   const url = `https://places.googleapis.com/v1/${photoName}/media?maxWidthPx=800&key=${apiKey}`;
   res.redirect(url);
 });
